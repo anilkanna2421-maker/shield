@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "540171927429",
+    "project_id": "shieldguard-9d7a2",
+    "storage_bucket": "shieldguard-9d7a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540171927429:android:cb1468ec86ae5bd3878eec",
+        "android_client_info": {
+          "package_name": "com.shieldguard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjOI6rRBnZqconjjUPRM8xlcoWPOpR5nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

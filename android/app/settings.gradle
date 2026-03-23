@@ -1,0 +1,2 @@
+rootProject.name = "shieldguard"
+include ':app'

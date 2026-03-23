@@ -1,0 +1,52 @@
+// firestore.rules
+// Deploy with: firebase deploy --only firestore:rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Owners can only read their own data ───────────────────────────────────
+    match /owners/{email} {
+      allow read, write: if request.auth != null
+                         && request.auth.token.email == email;
+    }
+
+    // ── Devices: readable by owner only ──────────────────────────────────────
+    match /devices/{deviceId} {
+      allow read:  if isDeviceOwner(deviceId);
+      allow write: if isDeviceOwner(deviceId) || isDevice(deviceId);
+
+      // Subcollections
+      match /locations/{locId} {
+        allow read:  if isDeviceOwner(deviceId);
+        allow create: if isDevice(deviceId);
+      }
+      match /events/{evtId} {
+        allow read:  if isDeviceOwner(deviceId);
+        allow create: if isDevice(deviceId);
+      }
+      match /photos/{photoId} {
+        allow read:  if isDeviceOwner(deviceId);
+        allow create: if isDevice(deviceId);
+      }
+      match /commands/{cmdId} {
+        allow read:  if isDevice(deviceId) || isDeviceOwner(deviceId);
+        allow create: if isDeviceOwner(deviceId);
+        allow update: if isDevice(deviceId);   // Device marks as delivered
+      }
+    }
+
+    // ── Helper functions ──────────────────────────────────────────────────────
+    function isDeviceOwner(deviceId) {
+      return request.auth != null &&
+             get(/databases/$(database)/documents/devices/$(deviceId))
+               .data.ownerEmail == request.auth.token.email;
+    }
+
+    function isDevice(deviceId) {
+      // Devices authenticate using a custom token with deviceId claim
+      return request.auth != null &&
+             request.auth.token.deviceId == deviceId;
+    }
+  }
+}
