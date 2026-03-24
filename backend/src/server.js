@@ -26,7 +26,7 @@ const rateLimit     = require('express-rate-limit');
 require('dotenv').config();
 
 // ─── Firebase Admin init ──────────────────────────────────────────────────────
-const serviceAccount = require('../config/firebase-service-account.json');
+const serviceAccount = require('../shieldguard-9d7a2-firebase-adminsdk-fbsvc-4c6db5a37c.json');
 admin.initializeApp({
   credential:  admin.credential.cert(serviceAccount),
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET
